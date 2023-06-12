@@ -16,10 +16,9 @@ Try minting some NFTs below, without paying gas!`
 
 export function SponsoredGasExample({ label = undefined }) {
   const { address } = useAccount();
-  const { chain } = useNetwork()
+  const { chain } = useNetwork();
 
   const [balanceChanging, setBalanceChanging] = useState(false)
-
 
   const { config } = usePrepareContractWrite({
     address: "0x34bE7f35132E97915633BC1fc020364EA5134863",
@@ -28,6 +27,7 @@ export function SponsoredGasExample({ label = undefined }) {
     args: [address],
     enabled: true
   });
+
   const { write: mint } = useContractWrite(config);
 
   const { data: balance = 0, refetch } = useContractRead({

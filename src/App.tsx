@@ -8,11 +8,13 @@ import {
 } from "react-router-dom";
 import { SponsoredGasExample } from './examples/SponsoredGasExample';
 import { BatchExample } from './examples/BatchExample';
+import { TransferExample } from './examples/TransferExample';
 
 
 const links = [
   { path: '/gas-free', label: 'Pay Gas for Users', element: <SponsoredGasExample /> },
   { path: '/bundle', label: 'Bundle Transactions', element: <BatchExample /> },
+  { path: '/transfer', label: 'ERC-20', element: <TransferExample /> },
 ];
 
 const router = createBrowserRouter([

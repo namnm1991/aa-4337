@@ -4,19 +4,21 @@ import {
   configureChains,
   createClient,
 } from "wagmi";
-import { publicProvider } from 'wagmi/providers/public'
+import { publicProvider } from 'wagmi/providers/public';
 import { polygonMumbai } from 'wagmi/chains'
 import { connectorsForWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
+import {
+  injectedWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import { 
   googleWallet,
   facebookWallet,
   githubWallet,
-  discordWallet,
-  twitchWallet,
-  twitterWallet,
+  enhanceWalletWithAAConnector,
 } from '@zerodevapp/wagmi/rainbowkit'
 
-const defaultProjectId = process.env.REACT_APP_ZERODEV_PROJECT_ID || 'b5486fa4-e3d9-450b-8428-646e757c10f6'
+// default project id 'b5486fa4-e3d9-450b-8428-646e757c10f6' 
+const defaultProjectId = process.env.REACT_APP_ZERODEV_PROJECT_ID || '71b65692-6875-46a8-a2f7-bb4024f64755'
 
 const { chains, provider, webSocketProvider } = configureChains(
   [polygonMumbai],
@@ -25,15 +27,22 @@ const { chains, provider, webSocketProvider } = configureChains(
 
 const connectors = connectorsForWallets([
   {
-    groupName: 'Social',
+    groupName: 'Smart Wallet Account',
       wallets: [
+        enhanceWalletWithAAConnector(
+          injectedWallet({ chains }),
+          { projectId: defaultProjectId }
+        ),
         googleWallet({options: { projectId: defaultProjectId}}),
         facebookWallet({options: { projectId: defaultProjectId}}),
         githubWallet({options: { projectId: defaultProjectId }}),
-        discordWallet({options: { projectId: defaultProjectId }}),
-        twitchWallet({options: { projectId: defaultProjectId }}),
-        twitterWallet({options: { projectId: defaultProjectId }}),
-    ],
+    ],    
+  },
+  {
+    groupName: 'EoA (Externally Owned Account)',
+      wallets: [
+        injectedWallet({ chains }),
+    ],    
   },
 ]);
 
